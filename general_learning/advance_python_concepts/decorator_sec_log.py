@@ -9,6 +9,22 @@ Author : Humair Munir
 """
 
 import functools
+import time
+
+# ✅ Timing decorator
+
+
+def timing(func):
+    @functools.wraps(func)
+    def wrapper(*args , **kwargs):
+        print(f"Calculating time for Function {func.__name__}")
+        start_time = time.time()
+        results = func(*args, **kwargs)
+        end_time = time.time()
+        total_time = end_time - start_time 
+        print(f"Time taken for {func.__name__} is : {total_time:.8f} seconds")
+        return results
+    return wrapper
 
 # ✅ Logging Decorator
 def log(func):
@@ -38,11 +54,15 @@ def security(func):
 def show_info(name, age):
     return f"Name: {name}, Age: {age}"
 
+
+# ✅ Example usage of the timing decorator
+@timing
 # ✅ Logged function
 @log
 # ✅ Secured function
 @security
 def fetch_db(**kwargs):
+    time.sleep(1)
     return {"data": "Sample DB content", "user": kwargs.get("user")}
 
 # ✅ Example usage
